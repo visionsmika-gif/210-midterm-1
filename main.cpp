@@ -85,7 +85,7 @@ public:
 
         if (!temp) return; // If temp is nullptr (meaning it has gone past the list), return because we didn't find any node with the value.
 
-        // Now we will rewire the nodes surrounding our node to be deleted so that the linked list remains intact.
+        // Now we will rewire the nodes surrounding the node we want to delete so that the linked list remains intact.
         if (temp->prev)                         // If we are NOT deleting the head (meaning that a node to the left exists),
             temp->prev->next = temp->next;      // rewire the node to the left's next to point at the node AFTER the one we're going to delete.
         else                                    // Else if we ARE deleting the head,
@@ -108,8 +108,7 @@ public:
             return;
         }
     
-        // If the head is being deleted,
-        if (pos == 1) {
+        if (pos == 1) {     // If the head is being deleted,
             pop_front();    // simply call pop_front and return.
             return;
         }
@@ -133,36 +132,40 @@ public:
             return;
         }
     
-        if (!temp->next) {
-            pop_back();
+        if (!temp->next) {  // If we are deleting the TAIL (meaning that no node to the right exists),
+            pop_back();     // simply call pop_back() and return.
             return;
         }
     
-        Node* tempPrev = temp->prev;
-        tempPrev->next = temp->next;
-        temp->next->prev = tempPrev;
-        delete temp;
+        // Now we will rewire the nodes surrounding the node we want to delete so that the linked list remains intact.
+        Node* tempPrev = temp->prev;    // Point to the node to the left of the one we want to delete.
+        tempPrev->next = temp->next;    // The node to the left's next will point to the node AFTER the one to be deleted.
+        temp->next->prev = tempPrev;    // The node to the right of the one we want to delete will now have its prev point to the node BEFORE the one we want to delete.
+
+        delete temp;    // Finally, delete the node by freeing its memory.
     }
 
+    // This function will add a new node to the end of the linked list, initialized with the parameter v.
     void push_back(int v) {
-        Node* newNode = new Node(v);
-        if (!tail)
-            head = tail = newNode;
-        else {
-            tail->next = newNode;
-            newNode->prev = tail;
-            tail = newNode;
+        Node* newNode = new Node(v);    // Create a new node using v to initialize its data.
+        if (!tail)                      // If the list is empty,
+            head = tail = newNode;      // the new node becomes the list's head and tail.
+        else {                          // Else if the list is not empty,
+            tail->next = newNode;       // the old tail's next will point to the new node
+            newNode->prev = tail;       // and the new node's prev will point to the old tail.
+            tail = newNode;             // Finally, the tail of the list becomes the new node we inserted.
         }
     }
     
+    // This function will add a new node to the front of the linked list, initialized with the parameter v.
     void push_front(int v) {
-        Node* newNode = new Node(v);
-        if (!head)
-            head = tail = newNode;
-        else {
-            newNode->next = head;
-            head->prev = newNode;
-            head = newNode;
+        Node* newNode = new Node(v);    // Create a new node using v to initialize its data.
+        if (!head)                      // If the list is empty,
+            head = tail = newNode;      // the node node becomes the list's head and tail.
+        else {                          // Else if the list is not empty,
+            newNode->next = head;       // the new node's next will point to the old head,
+            head->prev = newNode;       // and the old head's prev will point to the new node.
+            head = newNode;             // Finally, the head of the list becomes the new node we inserted.
         }
     }
     
