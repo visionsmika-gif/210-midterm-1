@@ -49,38 +49,41 @@ public:
             return;
         }
         
-        // temp will be used to traverse the list.
+        // temp pointer will be used to traverse the list.
         Node* temp = head;
 
-        // Continue traversing the list until temp points to the correct position.
+        // Continue traversing the list until either temp points to the correct position, or temp becomes nullptr (temp has gone past the list).
         for (int i = 0; i < position && temp; ++i)
             temp = temp->next;  // Point temp to the next node in the list
 
         if (!temp) {    // If temp ends up going past the list (temp is nullptr), return.
             cout << "Position exceeds list size. Node not inserted.\n";
-            delete newNode; // Clean up the memory that was used up from the node we created earlier.
+            delete newNode; // Clean up the memory that was used up from the node we created earlier but never inserted.
             return;
         }
+        
+        // Wire the next and prev pointers of the new node we created before we insert it into the list.
+        newNode->next = temp->next;     // newNode's next points to the node after temp.
+        newNode->prev = temp;           // newNode's prev points to temp (because it will be inserted after temp).
 
-
-        newNode->next = temp->next;
-        newNode->prev = temp;
-        if (temp->next)
-            temp->next->prev = newNode;
-        else
-            tail = newNode;
-        temp->next = newNode;
+        if (temp->next)                 // If we are NOT inserting at the tail (meaning a node to the right exists),
+            temp->next->prev = newNode; // rewire the node to the right's prev to point at newNode.
+        else                            // Else if we ARE inserting at the tail,
+            tail = newNode;             // the tail of the linked list becomes our new node.
+        temp->next = newNode;           // Finally, temp's next points to our newNode (because newNode is inserted after temp).
     }
 
+    // This function will delete the first node in the linked list that contains the given value.
     void delete_val(int value) {
-        if (!head) return;
+        if (!head) return;  // If the list is empty, return.
 
-        Node* temp = head;
+        Node* temp = head;  // temp pointer will be used to traverse the list.
         
+        // Traverse the list until we find a node with the value or until temp becomes nullptr (temp has gone past the list).
         while (temp && temp->data != value)
-            temp = temp->next;
+            temp = temp->next;  // Point temp to the next node in the list
 
-        if (!temp) return; 
+        if (!temp) return;
 
         if (temp->prev)
             temp->prev->next = temp->next;
