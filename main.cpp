@@ -221,27 +221,44 @@ public:
 
     // This function will print each node's data in the linked list.
     void print() {
-        Node* current = head;   // current w
+        Node* current = head;   // current will be used to traverse the node, beginning at the head
         if (!current) { // Return if empty list (meaning head is nullptr).
             cout << "List is empty." << endl;
             return;
         }
-        while (current) {
-            cout << current->data << " ";
-            current = current->next;
+        while (current) {   // While current is not nullptr (meaning it is within the linked list),
+            cout << current->data << " ";   // print the data of the current node
+            current = current->next;        // point current to the next node, until it points to nullptr (which will end the traversal loop)
         }
         cout << endl;
     }
 
+    // This function will print each node's data in the linked list, but in reverse, from tail to head.
     void print_reverse() {
-        Node* current = tail;
-        if (!current) { 
+        Node* current = tail;   // current will be used to traverse the node, beginning at the tail
+        if (!current) {         // Return if empty is list (meaning that tail is nullptr)
             cout << "List is empty." << endl;
             return;
         }
-        while (current) {
-            cout << current->data << " ";
-            current = current->prev;
+        while (current) {   // While current is not nullptr (meaning it is within the linked list),
+            cout << current->data << " ";   // print the data of the current node
+            current = current->prev;        // point current to the previous node, until it points to nullptr (which will end the traversal loop)
+        }
+        cout << endl;
+    }
+
+    // This function will print every other element in the list.
+    void every_other_element() {
+        Node* current = head;   // current will be used to traverse the node, beginning at the head
+        if (!current) { // Return if empty list (meaning head is nullptr).
+            cout << "List is empty." << endl;
+            return;
+        }
+        while (current) {   // While current is not nullptr (meaning it is within the linked list),
+            cout << current->data << " ";             // print the data of the current node
+            if (current->next) {                      // Only move current if more nodes exist to the right.
+                current = current->next->next;        // point current to the NEXT NEXT node, skipping the one in between
+            }
         }
         cout << endl;
     }
@@ -249,6 +266,10 @@ public:
 
 int main() {
     cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
+
+    DoublyLinkedList list;
+
+    
 
     
     return 0;
