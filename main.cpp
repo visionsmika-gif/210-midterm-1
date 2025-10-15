@@ -256,8 +256,15 @@ public:
         }
         while (current) {   // While current is not nullptr (meaning it is within the linked list),
             cout << current->data << " ";             // print the data of the current node
-            if (current->next) {                      // Only move current if more nodes exist to the right.
-                current = current->next->next;        // point current to the NEXT NEXT node, skipping the one in between
+            if (current->next) {                      // If a node exists to the right,
+                current = current->next->next;        // point current to the NEXT NEXT node, skipping the one in between.
+                                                      // (If we assigned current to current->next->next without checking if a node to the right exists,
+                                                      // we might dangerously point current to some random data past the linked list.)
+                                                      // (By checking that current->next exists,
+                                                      // we ensure that current is ONLY ever assigned to either: a node, or nullptr
+            }
+            else {                  // If no node to the right exists,
+                current = nullptr;  // End the loop by assigning current nullptr (because the loop only continues when current is not nullptr).
             }
         }
         cout << endl;
@@ -265,11 +272,14 @@ public:
 };
 
 int main() {
-    cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
+    // cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
 
     DoublyLinkedList list;
+    for (int i = 0; i < 10; ++i) {  // linked list will contain nodes with values 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+        list.push_back(i);
+    }
 
-    
+    list.every_other_element();     // print out every other element: 0, 2, 4, 6, 8
 
     
     return 0;
