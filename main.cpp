@@ -1,9 +1,5 @@
-/*
-INSTRUCTIONS:
-Fully comment each instruction in the code, explaining what's happening on that particular line. I want you to convince me that you understand what's happening with every pointer and line of code.
-
-Additionally, write a class method every_other_element() that will output the data structure starting with the first element, skip the second element, output the third, skip fourth, etc. Demo this method in your code.
-*/
+// COMSC-210 | Midterm 1 | Mika Aquino
+// IDE used: Visual Studio 2022
 
 #include <iostream>
 using namespace std;
@@ -259,9 +255,11 @@ public:
             if (current->next) {                      // If a node exists to the right,
                 current = current->next->next;        // point current to the NEXT NEXT node, skipping the one in between.
                                                       // (If we assigned current to current->next->next without checking if a node to the right exists,
-                                                      // we might dangerously point current to some random data past the linked list.)
-                                                      // (By checking that current->next exists,
-                                                      // we ensure that current is ONLY ever assigned to either: a node, or nullptr
+                                                      // we might dangerously point current to some random data past the linked list.
+                                                      // By checking that current->next exists,
+                                                      // we ensure that current is ONLY ever assigned to either:
+                                                        // a node
+                                                        // or nullptr   (if current-> next is the tail)
             }
             else {                  // If no node to the right exists,
                 current = nullptr;  // End the loop by assigning current nullptr (because the loop only continues when current is not nullptr).
@@ -274,13 +272,17 @@ public:
 int main() {
     // cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
 
-    DoublyLinkedList list;
+    DoublyLinkedList list;          // Create a linked list
     for (int i = 0; i < 10; ++i) {  // linked list will contain nodes with values 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
         list.push_back(i);
     }
 
-    list.every_other_element();     // print out every other element: 0, 2, 4, 6, 8
+    list.every_other_element();     // Print out every other element: 0, 2, 4, 6, 8
 
-    
+    list.push_back(10);             // Add another node to test with an odd number of elements
+
+    list.every_other_element();     // Print out every other element: 0, 2, 4, 6, 8, 10
+
+    // Destructor will automatically be called when list goes out of scope, cleaning its memory.
     return 0;
 }
