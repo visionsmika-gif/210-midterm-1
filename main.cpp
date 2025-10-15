@@ -169,50 +169,60 @@ public:
         }
     }
     
+    // This function will delete the node at the front of the linked list.
     void pop_front() {
 
-        if (!head) {
+        if (!head) {    // If the list is empty, return because there's nothing to delete.
             cout << "List is empty." << endl;
             return;
         }
 
-        Node * temp = head;
+        Node * temp = head; // temp will temporarily point to the node we're going to delete (the head).
 
-        if (head->next) {
-            head = head->next;
-            head->prev = nullptr;
+        if (head->next) {           // If a node exists after the current head,
+            head = head->next;      // the node after the current head will become the new head of the list,
+            head->prev = nullptr;   // and the new head's prev will be nullptr.
         }
-        else
-            head = tail = nullptr;
-        delete temp;
+        else                        // Else if a node doesn't exist after the head (meaning there's only one node in the list),
+            head = tail = nullptr;  // both the head and tail become nullptr and the list is empty.
+
+        delete temp;    // Finally, delete the original head by freeing its memory.
     }
 
+    // This function will delete the last node in the linked list.
     void pop_back() {
-        if (!tail) {
+
+        if (!tail) {    // If the list is empty, return because there's nothing to delete.
             cout << "List is empty." << endl;
             return;
         }
-        Node * temp = tail;
 
-        if (tail->prev) {
-            tail = tail->prev;
-            tail->next = nullptr;
+        Node * temp = tail; // temp will temporarily point to the node we're going to delete (the tail).
+
+        if (tail->prev) {           // If a node exists before the current tail,
+            tail = tail->prev;      // the node before the current tail will become the new tail of the list,
+            tail->next = nullptr;   // and the new tail's prev will be nullptr.
         }
-        else
-            head = tail = nullptr;
-        delete temp;
+        else                        // Else if a node doesn't exist before the tail (meaning there's only one node in the list),
+            head = tail = nullptr;  // both the head and tail become nullptr and the list is empty.
+
+        delete temp;    // Finally, delete the original tail by freeing its memory.
     }
 
+    // This is the destructor for the DoublyLinkedList.
+    // It ensures that the memory of each node is properly freed when a DoublyLinkedList object goes out of scope.
     ~DoublyLinkedList() {
-        while (head) {
-            Node* temp = head;
-            head = head->next;
-            delete temp;
+        while (head) {          // Go through the list as long as nodes exist
+            Node* temp = head;  // Point to the current, old head
+            head = head->next;  // Move head to point to the next node. (head will become nullptr once it reaches the end of the list, which will end the traversal loop.)
+            delete temp;        // Delete the 'old head'
         }
     }
+
+    // This function will print each node's data in the linked list.
     void print() {
-        Node* current = head;
-        if (!current) {
+        Node* current = head;   // current w
+        if (!current) { // Return if empty list (meaning head is nullptr).
             cout << "List is empty." << endl;
             return;
         }
