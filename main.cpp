@@ -83,43 +83,52 @@ public:
         while (temp && temp->data != value)
             temp = temp->next;  // Point temp to the next node in the list
 
-        if (!temp) return;
+        if (!temp) return; // If temp is nullptr (meaning it has gone past the list), return because we didn't find any node with the value.
 
-        if (temp->prev)
-            temp->prev->next = temp->next;
-        else
-            head = temp->next; 
+        // Now we will rewire the nodes surrounding our node to be deleted so that the linked list remains intact.
+        if (temp->prev)                         // If we are NOT deleting the head (meaning that a node to the left exists),
+            temp->prev->next = temp->next;      // rewire the node to the left's next to point at the node AFTER the one we're going to delete.
+        else                                    // Else if we ARE deleting the head,
+            head = temp->next;                  // the head of the linked list is rewired to point to the node AFTER the one we're going to delete.
 
-        if (temp->next)
-            temp->next->prev = temp->prev;
-        else
-            tail = temp->prev; 
+        if (temp->next)                         // If we are NOT deleting the tail (meaning that a node to the right exists),
+            temp->next->prev = temp->prev;      // rewire hte node to the right's prev to point at the node BEFORE the one we're going to delete.
+        else                                    // Else if we ARE deleting the tail,
+            tail = temp->prev;                  // the tail of the linked list is rewired to point to the node BEFORE the one we're going to delete.
 
-        delete temp;
+        delete temp;    // Finally, delete the node by freeing its memory.
     }
 
+    // This function will delete the node at a given position.
     void delete_pos(int pos) {
+
+        // If the list is empty (head is nullptr), return.
         if (!head) {
             cout << "List is empty." << endl;
             return;
         }
     
+        // If the head is being deleted,
         if (pos == 1) {
-            pop_front();
+            pop_front();    // simply call pop_front and return.
             return;
         }
     
+        // temp pointer will be used to traverse the list.
         Node* temp = head;
     
+        // The for loop will traverse the loop up to the given position.
         for (int i = 1; i < pos; i++){
-            if (!temp) {
+            if (!temp) {    // Each iteration checks that temp is not nullptr. If temp IS nullptr, it has gone past the list (invalid position).
                 cout << "Position doesn't exist." << endl;
-                return;
+                return;     // Return due to invalid position.
             }
             else
-                temp = temp->next;
+                temp = temp->next;  // Point temp to the next node in the list.
         }
-        if (!temp) {
+
+        // Check if the final position is valid, meaning temp is not nullptr.
+        if (!temp) {    // If temp IS nullptr, it has gone past the list (invalid position), so return.
             cout << "Position doesn't exist." << endl;
             return;
         }
