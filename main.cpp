@@ -1,3 +1,10 @@
+/*
+INSTRUCTIONS:
+Fully comment each instruction in the code, explaining what's happening on that particular line. I want you to convince me that you understand what's happening with every pointer and line of code.
+
+Additionally, write a class method every_other_element() that will output the data structure starting with the first element, skip the second element, output the third, skip fourth, etc. Demo this method in your code.
+*/
+
 #include <iostream>
 using namespace std;
 
@@ -5,10 +12,12 @@ const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
 
 class DoublyLinkedList {
 private:
+    // We use a struct to represent a single node in the linked list.
     struct Node {
-        int data;
-        Node* prev;
-        Node* next;
+        int data;       // Each node has data,
+        Node* prev;     // a pointer to the previous node,
+        Node* next;     // and a pointer to the next node.
+        // Below is a Node constructor that initializes the members data, prev, and next.
         Node(int val, Node* p = nullptr, Node* n = nullptr) {
             data = val; 
             prev = p;
@@ -16,33 +25,43 @@ private:
         }
     };
 
-    Node* head;
-    Node* tail;
+    Node* head; // head points to the first node of the linked list.
+    Node* tail; // tail points to the last node of the linked list.
 
 public:
-    DoublyLinkedList() { head = nullptr; tail = nullptr; }
+    DoublyLinkedList() { head = nullptr; tail = nullptr; }  // The default constructor for DoublyLinkedList sets the head and tail to nullptr.
 
-    void insert_after(int value, int position) {
+    // This function inserts a new node after a given position.
+    void insert_after(int value, int position) {    // The node node's data will be initialized to the value parameter.
+
+        // Return if invalid negative position.
         if (position < 0) {
             cout << "Position must be >= 0." << endl;
             return;
         }
 
+        // Create new node to be inserted.
         Node* newNode = new Node(value);
+
+        // If the list is empty (head is nullptr), the new node becomes the head and the tail.
         if (!head) {
             head = tail = newNode;
             return;
         }
-
+        
+        // temp will be used to traverse the list.
         Node* temp = head;
-        for (int i = 0; i < position && temp; ++i)
-            temp = temp->next;
 
-        if (!temp) {
+        // Continue traversing the list until temp points to the correct position.
+        for (int i = 0; i < position && temp; ++i)
+            temp = temp->next;  // Point temp to the next node in the list
+
+        if (!temp) {    // If temp ends up going past the list (temp is nullptr), return.
             cout << "Position exceeds list size. Node not inserted.\n";
-            delete newNode;
+            delete newNode; // Clean up the memory that was used up from the node we created earlier.
             return;
         }
+
 
         newNode->next = temp->next;
         newNode->prev = temp;
